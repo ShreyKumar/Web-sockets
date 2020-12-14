@@ -1,13 +1,5 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
-<style>
-  input {
-    width: 100%;
-  }
-  #messages {
-    list-style-type: none;
-  }
-</style>
+<link rel="stylesheet" href="style.css" />
 
 <div class="container">
   <div id="row">
@@ -30,33 +22,4 @@
 
 
 <script src="/socket.io/socket.io.js"></script>
-
-<script>
-  const socket = io('http://localhost:9000')
-
-  socket.on('connect', () => {
-    document.querySelector('#your-id').innerHTML += socket.id.slice(0, 5)
-  })
-
-  document.querySelector('#message-form').addEventListener('submit', (event) => {
-    event.preventDefault()
-    const newMessage = document.querySelector('#user-message').value
-    document.querySelector('#user-message').value = ''
-
-    socket.emit('newMessageToServer', { text: newMessage })
-  })
-
-  socket.on('connectionStatus', (msg) => {
-    document.querySelector('#count').innerHTML = msg.connected
-  })
-
-  socket.on('messageToClients', (msg) => {
-    console.log(msg)
-    const messagesElem = document.querySelector('#messages')
-    const fragment = document.createDocumentFragment()
-    const li = document.createElement('li')
-    li.textContent = `${msg.from.slice(0, 5)}: ${msg.text}`
-    fragment.appendChild(li)
-    messagesElem.appendChild(fragment)
-  })
-</script>
+<script src="script.js"></script>
