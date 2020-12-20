@@ -5,7 +5,7 @@
   "main": "ws.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon chat.js"
+    "start": "nodemon slack.js"
   },
   "repository": {
     "type": "git",

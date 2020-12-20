@@ -10,21 +10,18 @@ socketio(expressServer)
 
 const io = socketio(expressServer)
 
-let connected = 0
 
 io.on('connection', (socket) => {
-  connected += 1
-  console.log(socket.id, connected)
-  io.emit('connectionStatus', { connected })
-  
-  socket.on('disconnect', () => {
-    console.log('disconnected')
-    connected -=  1
-    io.emit('connectionStatus', { connected })
+  socket.emit('messageFromServer', { data: 'Welcome to the socketio server' })
+  socket.on('messageToServer', (dataFromClient) => {
+    console.log(dataFromClient)
   })
 
-  socket.on('newMessageToServer', (msg) => {
-    console.log(msg)
-    io.emit('messageToClients', {text: msg.text, from: socket.id})
-  })
+  socket.join('level1')
+  io.to('level1').emit('joined', `${socket.id} has joined the level 1 room`)
+})
+
+io.of('/admin').on('connection', (socket) => {
+  console.log('Admin namespace')
+  io.of('/admin').emit('welcome', 'welcome to the admin channel')
 })
