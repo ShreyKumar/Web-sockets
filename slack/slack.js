@@ -44,6 +44,8 @@ namespaces.forEach((namespace) => {
 
       console.log({ nsRoom })
       socket.emit('historyCatchUp', nsRoom.history)
+      console.log({ connectedCounter })
+      io.of(namespace.endpoint).in(roomToJoin).emit('updateMembers', connectedCounter)
     })
 
     socket.on('newMessageToServer', (msg) => {
