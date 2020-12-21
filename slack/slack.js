@@ -39,6 +39,11 @@ namespaces.forEach((namespace) => {
 
       // console.log(io.sockets.clients(roomToJoin))
       numberOfUsers(connectedCounter)
+
+      const nsRoom = namespace.rooms.find((room) => room.roomTitle === roomToJoin)
+
+      console.log({ nsRoom })
+      socket.emit('historyCatchUp', nsRoom.history)
     })
 
     socket.on('newMessageToServer', (msg) => {
@@ -50,6 +55,10 @@ namespaces.forEach((namespace) => {
         avatar: 'https://via.placeholder.com/30'
       }
       const roomTitle = Array.from(socket.rooms.values())[1]
+      const nsRoom = namespace.rooms.find((room) => room.roomTitle === roomTitle)
+      nsRoom.addMessage(fullMsg)
+      console.log(nsRoom)
+
       io.of(namespace.endpoint).to(roomTitle).emit('messageToClients', fullMsg)
     })
   })
